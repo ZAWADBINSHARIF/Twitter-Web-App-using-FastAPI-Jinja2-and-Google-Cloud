@@ -1,0 +1,80 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+* {
+  padding: 0;
+  margin: 0;
+  color: white;
+  font-family: 'Roboto';
+}
+
+body {
+  background-color: #000;
+}
+
+button {
+  background-color: #1d9bf0;
+  border: none;
+  outline: none;
+  padding: 7px 18px;
+  border-radius: 80px;
+  font-weight: bolder;
+}
+
+.hide {
+  display: none;
+}
+
+.side-menu {
+  width: 25%;
+}
+
+.div-icon {
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.div-icon > span {
+  padding: 12px;
+}
+
+.div-icon > span:hover {
+  background-color: #383838a1;
+  border-radius: 12px;
+}
+
+.feed {
+  width: 45%;
+  height: 100vh;
+  border-left: 1px solid gray;
+  border-right: 1px solid gray;
+  overflow-y: scroll;
+  -ms-overflow-style: none; /* For IE and Edge */
+  scrollbar-width: none; /* For Firefox */
+}
+
+.feed::-webkit-scrollbar {
+  display: none;
+}
+
+.post-input-area {
+  padding-top: 16px;
+}
+
+#post-input {
+  background-color: #000;
+  border: none;
+  height: 42px;
+  width: 100%;
+  padding: 16px;
+  font-size: 20px;
+}
+
+#post-input:focus {
+  border: none;
+  outline: none;
+}
+
+.feed-post > .post-wrapper > .post {
+  border-top: 1px solid gray;
+  border-bottom: 1px solid gray;
+}
