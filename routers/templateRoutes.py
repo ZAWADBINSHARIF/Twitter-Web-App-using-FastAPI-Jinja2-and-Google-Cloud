@@ -17,6 +17,11 @@ async def home_page(req: Request):
     return templates.TemplateResponse(request=req, name="home.html")
 
 
+@templateRoutes.get("/profile")
+async def home_page(req: Request):
+    return templates.TemplateResponse(request=req, name="profile.html")
+
+
 @templateRoutes.get("/login")
 async def login_page(req: Request):
     return templates.TemplateResponse(request=req, name="login.html")

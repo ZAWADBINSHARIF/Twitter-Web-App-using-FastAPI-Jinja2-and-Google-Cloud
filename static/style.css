@@ -11,8 +11,23 @@ body {
   background-color: #000;
 }
 
+a {
+  color: inherit;
+  text-decoration: inherit;
+}
+
 button {
   background-color: #1d9bf0;
+  border: none;
+  outline: none;
+  padding: 7px 18px;
+  border-radius: 80px;
+  font-weight: bolder;
+}
+
+.second-button {
+  background-color: #ffffff;
+  color: #000;
   border: none;
   outline: none;
   padding: 7px 18px;
@@ -74,7 +89,17 @@ button {
   outline: none;
 }
 
+#upload-img {
+  cursor: pointer;
+}
+
 .feed-post > .post-wrapper > .post {
   border-top: 1px solid gray;
   border-bottom: 1px solid gray;
+}
+
+.profile-picture > img {
+  margin-top: -80px;
+  border: 5px solid black;
+  cursor: pointer;
 }
