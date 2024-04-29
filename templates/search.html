@@ -1,0 +1,51 @@
+<!-- header include  -->
+{% include 'partials/header.html' %}
+
+<!-- side menu include  -->
+{% include 'partials/side_menu.html' %}
+
+<div class="search-section p-3">
+  <div
+    class="px-5 d-flex flex-column gap-3 pb-3 border-bottom border-1 border-light"
+  >
+    <input
+      type="text"
+      name="search"
+      placeholder="Search"
+      class="search-input rounded-5"
+    />
+    <div class="d-flex gap-2">
+      <input
+        type="radio"
+        class="btn-check"
+        name="options-outlined"
+        id="user-radio-btn"
+        autocomplete="off"
+        checked
+      />
+      <label class="btn btn-outline-light" for="user-radio-btn">User</label>
+
+      <input
+        type="radio"
+        class="btn-check"
+        name="options-outlined"
+        id="tweet-radio-btn"
+        autocomplete="off"
+      />
+      <label class="btn btn-outline-light" for="tweet-radio-btn">Tweet</label>
+
+      <div class="ms-auto">
+        <button class="second-button">Search</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- single username include -->
+  {% include "partials/user-wrapper.html" %}
+
+  <!-- feed include -->
+  {% include "partials/feed-post.html" %}
+</div>
+
+<!-- footer include  -->
+{% include 'partials/footer.html' %}

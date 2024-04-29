@@ -57,7 +57,8 @@ button {
   border-radius: 12px;
 }
 
-.feed {
+.feed,
+.search-section {
   width: 45%;
   height: 100vh;
   border-left: 1px solid gray;
@@ -102,4 +103,18 @@ button {
   margin-top: -80px;
   border: 5px solid black;
   cursor: pointer;
+}
+
+.search-input {
+  background-color: #202327;
+  border: none;
+  height: 42px;
+  width: 100%;
+  padding: 16px;
+  font-size: 20px;
+}
+
+.search-input:focus {
+  border: none;
+  outline: none;
 }

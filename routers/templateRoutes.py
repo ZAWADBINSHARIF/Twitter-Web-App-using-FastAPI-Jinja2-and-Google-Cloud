@@ -1,7 +1,7 @@
 # external import
 from fastapi import APIRouter
 from fastapi.requests import Request
-from fastapi.responses import RedirectResponse, HTMLResponse
+from fastapi.responses import RedirectResponse, HTMLResponse, FileResponse
 from fastapi.templating import Jinja2Templates
 
 
@@ -20,6 +20,12 @@ async def home_page(req: Request):
 @templateRoutes.get("/profile")
 async def home_page(req: Request):
     return templates.TemplateResponse(request=req, name="profile.html")
+
+
+@templateRoutes.get("/search")
+async def home_page(req: Request):
+    return templates.TemplateResponse(request=req, name="search.html")
+
 
 
 @templateRoutes.get("/login")
