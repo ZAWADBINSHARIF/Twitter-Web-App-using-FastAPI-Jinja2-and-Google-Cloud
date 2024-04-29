@@ -16,6 +16,11 @@ a {
   text-decoration: inherit;
 }
 
+a:hover {
+  color: black;
+  text-decoration: none;
+}
+
 button {
   background-color: #1d9bf0;
   border: none;
@@ -105,7 +110,9 @@ button {
   cursor: pointer;
 }
 
-.search-input {
+.search-input,
+#email,
+#password {
   background-color: #202327;
   border: none;
   height: 42px;
@@ -117,4 +124,9 @@ button {
 .search-input:focus {
   border: none;
   outline: none;
+}
+
+.card {
+  border: 1px solid gray;
+  background-color: black;
 }

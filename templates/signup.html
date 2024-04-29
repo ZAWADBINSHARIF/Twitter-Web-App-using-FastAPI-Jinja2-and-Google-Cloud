@@ -1,17 +1,15 @@
 <!-- header include  -->
 {% include 'partials/header.html' %}
 
-
-
 <div class="d-flex justify-content-center p-5 w-100">
   <div class="card w-50">
     <div class="card-body">
-        <div class="d-flex">
-            <h2 class="card-title">Login</h2>
-            <div class="ms-auto">
-                <img src="/static/icons/twitter3.gif" alt="twitter" width="80"/>
-            </div>
+      <div class="d-flex">
+        <h2 class="card-title">Signup</h2>
+        <div class="ms-auto">
+          <img src="/static/icons/twitter3.gif" alt="twitter" width="80" />
         </div>
+      </div>
       <form class="d-flex flex-column gap-2">
         <div class="form-group">
           <label for="email">Email</label>
@@ -32,15 +30,13 @@
           />
         </div>
         <div class="d-flex gap-3 pt-2">
-            <button type="submit" class="button" id="login-btn">Login</button>
-            <a href="/signup" class="second-button">Singup</a>
+          <button type="submit" class="button" id="signup-btn">Signup</button>
+          <a href="/login" class="second-button">login</a>
         </div>
       </form>
     </div>
   </div>
 </div>
-
-   
 
 <!-- footer include  -->
 {% include 'partials/footer.html' %}

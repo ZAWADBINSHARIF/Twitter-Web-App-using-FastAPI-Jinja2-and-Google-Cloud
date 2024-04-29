@@ -31,3 +31,8 @@ async def home_page(req: Request):
 @templateRoutes.get("/login")
 async def login_page(req: Request):
     return templates.TemplateResponse(request=req, name="login.html")
+
+
+@templateRoutes.get("/signup")
+async def login_page(req: Request):
+    return templates.TemplateResponse(request=req, name="signup.html")
