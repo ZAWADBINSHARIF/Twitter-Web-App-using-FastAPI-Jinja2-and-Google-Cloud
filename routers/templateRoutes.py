@@ -14,18 +14,47 @@ templates = Jinja2Templates(directory="templates")
 
 @templateRoutes.get("/")
 async def home_page(req: Request):
+
+    try:
+        user_info = req.state.user_info
+
+        if len(user_info) == 0:
+            return RedirectResponse("/login")
+
+    except:
+        return RedirectResponse("/login")
+
     return templates.TemplateResponse(request=req, name="home.html")
 
 
 @templateRoutes.get("/profile")
 async def home_page(req: Request):
+
+    try:
+        user_info = req.state.user_info
+
+        if len(user_info) == 0:
+            return RedirectResponse("/login")
+
+    except:
+        return RedirectResponse("/login")
+
     return templates.TemplateResponse(request=req, name="profile.html")
 
 
 @templateRoutes.get("/search")
 async def home_page(req: Request):
-    return templates.TemplateResponse(request=req, name="search.html")
 
+    try:
+        user_info = req.state.user_info
+
+        if len(user_info) == 0:
+            return RedirectResponse("/login")
+
+    except:
+        return RedirectResponse("/login")
+
+    return templates.TemplateResponse(request=req, name="search.html")
 
 
 @templateRoutes.get("/login")

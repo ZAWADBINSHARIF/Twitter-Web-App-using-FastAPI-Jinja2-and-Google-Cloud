@@ -2,6 +2,8 @@
 import uvicorn
 from fastapi import FastAPI, Request
 from fastapi.staticfiles import StaticFiles
+from google.auth.transport import requests
+import google.oauth2.id_token
 
 
 # internal import
@@ -15,6 +17,32 @@ app = FastAPI(
 
 # static and template files are defined
 app.mount("/static", StaticFiles(directory="static"), name="static")
+
+
+firebase_request_adapter = requests.Request()
+
+
+# ** Middleware
+@app.middleware("http")
+async def log_middleware(req: Request, call_next):
+
+    id_token = req.cookies.get("token")
+
+    if id_token and id_token != "":
+        try:
+
+            user_info = google.oauth2.id_token.verify_firebase_token(
+                id_token, firebase_request_adapter
+            )
+            req.state.user_info = user_info
+            print(user_info["user_id"])
+        except Exception as err:
+            print(err)
+    else:
+        req.state.user_info = {}
+
+    response = await call_next(req)
+    return response
 
 
 # ** Template Routes

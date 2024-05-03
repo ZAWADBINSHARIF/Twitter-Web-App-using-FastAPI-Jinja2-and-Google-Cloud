@@ -21,6 +21,10 @@ a:hover {
   text-decoration: none;
 }
 
+input {
+  color: white !important;
+}
+
 button {
   background-color: #1d9bf0;
   border: none;
@@ -112,7 +116,9 @@ button {
 
 .search-input,
 #email,
-#password {
+#password,
+#signup-email,
+#signup-password {
   background-color: #202327;
   border: none;
   height: 42px;
