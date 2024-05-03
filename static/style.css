@@ -87,15 +87,29 @@ button {
 
 #post-input {
   background-color: #000;
+  /* border: 1px solid gray; */
   border: none;
   height: 42px;
   width: 100%;
   padding: 16px;
   font-size: 20px;
+  margin: 0 6px;
+  border-radius: 12px;
 }
 
 #post-input:focus {
-  border: none;
+  outline: none;
+}
+
+#post-type-input {
+  background-color: #000;
+  border: 1px solid gray;
+  padding: 3px 12px;
+  font-size: 18px;
+  border-radius: 12px;
+}
+
+#post-type-input:focus {
   outline: none;
 }
 
@@ -118,7 +132,8 @@ button {
 #email,
 #password,
 #signup-email,
-#signup-password {
+#signup-password,
+#username-input {
   background-color: #202327;
   border: none;
   height: 42px;

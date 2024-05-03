@@ -1,0 +1,52 @@
+<!-- header include  -->
+{% include 'partials/header.html' %}
+
+<div class="d-flex justify-content-center pt-5 align-items-center w-100">
+  <form>
+    <div class="mb-3">
+      <label for="username-input" class="form-label fw-bold fs-5"
+        >Username</label
+      >
+      <input
+        type="text"
+        class="form-control text-lowercase"
+        id="username-input"
+      />
+      <div class="form-text text-secondary">
+        Enter your username. It'll be used publicly
+      </div>
+      <div class="form-text text-danger hide" id="error">
+        This usename already used
+      </div>
+      <div class="d-flex justify-content-end m-2">
+        <button type="button" class="second-button" onclick="setUsername()">
+          Next
+        </button>
+      </div>
+    </div>
+  </form>
+</div>
+
+<script>
+  async function setUsername() {
+    const username = document.getElementById('username-input').value;
+
+    try {
+      const response = await fetch(`/tw/set_username?username=${username}`, {
+        method: 'post',
+      });
+
+      if(response.status >= 300)
+        document.getElementById("error").classList.remove("hide")
+
+      if (response.status == 201) {
+        window.location = '/';
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+</script>
+
+<!-- footer include  -->
+{% include 'partials/footer.html' %}
