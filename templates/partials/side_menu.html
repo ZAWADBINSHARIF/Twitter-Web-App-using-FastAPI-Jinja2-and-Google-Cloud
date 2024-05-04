@@ -11,11 +11,15 @@
       <img src="/static/icons/search.png" width="34" alt="search" />
       <span>Search</span>
     </a>
-    <a href="/profile" class="div-icon d-flex align-items-center">
+    {% if user_id%}
+
+    <a href="/profile?user_id={{user_id}}" class="div-icon d-flex align-items-center">
       <img src="/static/icons/profile.png" width="34" alt="profile" />
       <span>Profile</span>
     </a>
-    <a class="div-icon d-flex align-items-center">
+
+    {% endif %}
+    <a href="/setting" class="div-icon d-flex align-items-center">
       <img src="/static/icons/setting.png" width="32" alt="setting" />
       <span>Setting</span>
     </a>

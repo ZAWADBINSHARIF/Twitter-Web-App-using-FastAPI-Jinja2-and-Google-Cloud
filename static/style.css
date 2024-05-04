@@ -87,14 +87,13 @@ button {
 
 #post-input {
   background-color: #000;
-  /* border: 1px solid gray; */
   border: none;
+  border-bottom: 1px solid gray;
   height: 42px;
   width: 100%;
   padding: 16px;
   font-size: 20px;
   margin: 0 6px;
-  border-radius: 12px;
 }
 
 #post-input:focus {
@@ -103,10 +102,9 @@ button {
 
 #post-type-input {
   background-color: #000;
-  border: 1px solid gray;
+  border: none;
+  border-bottom: 1px solid gray;
   padding: 3px 12px;
-  font-size: 18px;
-  border-radius: 12px;
 }
 
 #post-type-input:focus {
@@ -150,4 +148,12 @@ button {
 .card {
   border: 1px solid gray;
   background-color: black;
+}
+
+
+.setting-section{
+  width: 45%;
+  border: 1px solid gray;
+  border-radius: 12px;
+  margin-top: 25px;
 }

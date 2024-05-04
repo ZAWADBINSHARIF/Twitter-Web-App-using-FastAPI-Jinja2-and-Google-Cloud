@@ -50,11 +50,37 @@
         class=""
       />
 
-      <button class="">Post</button>
+      <button onclick="uploadPost()">Post</button>
     </div>
 
     {% include "partials/feed-post.html" %}
   </div>
 </div>
+
+<script>
+  async function uploadPost() {
+    const tweet = document.querySelector('#post-input').value;
+    const tweet_type = document.querySelector('#post-type-input').value;
+    const file = document.querySelector('#img-uploader').files[0];
+
+    const formData = new FormData();
+
+    formData.append('tweet', tweet);
+    formData.append('tweet_type', tweet_type);
+    if (file) formData.append('file', file);
+
+    try {
+      const response = await fetch('/tw/post', {
+        method: 'POST',
+        body: formData,
+      });
+
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+</script>
+
 <!-- footer include  -->
 {% include 'partials/footer.html' %}

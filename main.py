@@ -8,7 +8,7 @@ import google.oauth2.id_token
 
 # internal import
 from routers.templateRoutes import templateRoutes
-from routers.databaseRoutes import databaseRoutes
+from routers.twitterRoutes import twitterRoutes
 
 app = FastAPI(
     title="An Interactive deshboard for Twitter",
@@ -49,7 +49,7 @@ async def log_middleware(req: Request, call_next):
 # ** Template Routes
 app.include_router(templateRoutes)
 # ** Template Routes
-app.include_router(databaseRoutes)
+app.include_router(twitterRoutes)
 
 
 if __name__ == "__main__":

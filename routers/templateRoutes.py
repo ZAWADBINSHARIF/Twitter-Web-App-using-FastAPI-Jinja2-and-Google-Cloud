@@ -6,7 +6,7 @@ from fastapi.templating import Jinja2Templates
 
 
 # internal import
-from routers.databaseRoutes import get_user_info
+from routers.twitterRoutes import get_user_info
 
 templateRoutes = APIRouter()
 templates = Jinja2Templates(directory="templates")
@@ -42,7 +42,7 @@ async def home_page(req: Request):
 
 
 @templateRoutes.get("/profile")
-async def home_page(req: Request):
+async def home_page(req: Request, user_id: str):
 
     try:
         user_info = req.state.user_info
@@ -50,10 +50,18 @@ async def home_page(req: Request):
         if len(user_info) == 0:
             return RedirectResponse("/login")
 
+        user = (await get_user_info(user_id)).to_dict()
+
+        print(user)
+
     except:
         return RedirectResponse("/login")
 
-    return templates.TemplateResponse(request=req, name="profile.html")
+    return templates.TemplateResponse(
+        request=req,
+        name="profile.html",
+        context={"user_id": user_info["user_id"], "user": user},
+    )
 
 
 @templateRoutes.get("/search")
@@ -68,7 +76,30 @@ async def home_page(req: Request):
     except:
         return RedirectResponse("/login")
 
-    return templates.TemplateResponse(request=req, name="search.html")
+    return templates.TemplateResponse(
+        request=req,
+        name="search.html",
+        context={"user_id": user_info["user_id"]},
+    )
+
+
+@templateRoutes.get("/setting")
+async def home_page(req: Request):
+
+    try:
+        user_info = req.state.user_info
+
+        if len(user_info) == 0:
+            return RedirectResponse("/login")
+
+    except:
+        return RedirectResponse("/login")
+
+    return templates.TemplateResponse(
+        request=req,
+        name="setting.html",
+        context={"user_id": user_info["user_id"]},
+    )
 
 
 @templateRoutes.get("/get_username")

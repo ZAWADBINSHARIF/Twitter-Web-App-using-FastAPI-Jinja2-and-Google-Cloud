@@ -1,0 +1,83 @@
+<!-- header include  -->
+{% include 'partials/header.html' %}
+
+<!-- side menu include  -->
+{% include 'partials/side_menu.html' %}
+
+<div class="setting-section p-4 d-flex gap-4 flex-column">
+  <div
+    class="d-flex align-items-center flex-row border-bottom border-1 border-light pb-3"
+  >
+    <h5>Upload profile picture</h5>
+    <label for="profile-picture-uploader" class="ms-auto">
+      <img
+        src="/static/icons/uploader.png"
+        alt="profile upload image"
+        width="32"
+        class="div-icon"
+      />
+    </label>
+    <input
+      id="profile-picture-uploader"
+      type="file"
+      accept="image/jpeg, image/png"
+      class="hide"
+      onchange="uploadProfile()"
+    />
+  </div>
+  <div
+    class="d-flex align-items-center flex-row border-bottom border-1 border-light pb-3"
+  >
+    <h5>Upload cover picture</h5>
+    <label for="cover-picture-uploader" class="ms-auto">
+      <img
+        src="/static/icons/uploader.png"
+        alt="profile upload image"
+        width="32"
+        class="div-icon"
+      />
+    </label>
+    <input
+      id="cover-picture-uploader"
+      type="file"
+      accept="image/jpeg, image/png"
+      class="hide"
+      onchange="uploadCover()"
+    />
+  </div>
+</div>
+
+<script>
+  async function uploadProfile() {
+    const imgFile = document.querySelector('#profile-picture-uploader')
+      .files[0];
+
+      const formData = new FormData()
+      formData.append("file", imgFile)
+
+    try {
+      const response = await fetch("/tw/set_profile_picture", {
+        method:'POST',
+        body: formData
+      })
+
+      if (response.status == 200){
+
+      }
+      console.log(response);
+
+    } catch (error) {
+      console.log(error);
+    }
+
+    console.log('profile');
+  }
+
+  function uploadCover() {
+    const imgFile = document.querySelector('#cover-picture-uploader').files[0];
+    console.log('cover');
+  }
+</script>
+
+<!-- footer include  -->
+{% include 'partials/footer.html' %}
