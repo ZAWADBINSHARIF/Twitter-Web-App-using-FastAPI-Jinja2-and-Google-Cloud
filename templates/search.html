@@ -3,7 +3,6 @@
 
 <!-- side menu include  -->
 {% include 'partials/side_menu.html' %}
-
 <div class="search-section p-3">
   <div
     class="px-5 d-flex flex-column gap-3 pb-3 border-bottom border-1 border-light"
@@ -23,7 +22,12 @@
         autocomplete="off"
         checked
       />
-      <label class="btn btn-outline-light" for="user-radio-btn">User</label>
+      <label
+        class="btn btn-outline-light"
+        for="user-radio-btn"
+        onclick="changleSearchType('user')"
+        >User</label
+      >
 
       <input
         type="radio"
@@ -32,20 +36,52 @@
         id="tweet-radio-btn"
         autocomplete="off"
       />
-      <label class="btn btn-outline-light" for="tweet-radio-btn">Tweet</label>
+      <label
+        class="btn btn-outline-light"
+        for="tweet-radio-btn"
+        onclick="changleSearchType('tweet')"
+        >Tweet</label
+      >
 
       <div class="ms-auto">
-        <button class="second-button">Search</button>
+        <button class="second-button" onclick="handleSearch()">Search</button>
       </div>
     </div>
   </div>
 
-  <!-- single username include -->
-  {% include "partials/user-wrapper.html" %}
+  {% if user_data %}
 
-  <!-- feed include -->
-  {% include "partials/feed-post.html" %}
+    <!-- single username include -->
+    {% include "partials/user-wrapper.html" %}
+
+  {% endif %}
+
+
+  {% if tweet_posts %}
+
+    <!-- feed include -->
+    {% include "partials/feed-post.html" %}
+
+  {% endif %}
 </div>
+
+<script>
+  let search_type = 'user';
+
+  function changleSearchType(type_name) {
+    search_type = type_name;
+  }
+
+  async function handleSearch() {
+    const search_value = document.querySelector('.search-input').value;
+
+    if (!search_value) return;
+
+    window.location = `/search?${
+      search_type === 'user' ? 'user_search_value' : 'tweet_search_value'
+    }=${search_value}`;
+  }
+</script>
 
 <!-- footer include  -->
 {% include 'partials/footer.html' %}

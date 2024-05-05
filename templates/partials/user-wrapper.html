@@ -1,51 +1,23 @@
 <div class="person-wrapper p-3 d-flex flex-column gap-4">
+  {% for user in user_data %}
 
   <div class="d-flex gap-2 align-items-center search-user">
     <img
-      src="https://pbs.twimg.com/profile_images/1662313375127441410/Vtybr05X_400x400.jpg"
+      src="{{user['profile_img_url']}}"
       alt="profile picture"
       width="60px"
       height="60px"
       class="rounded-circle"
     />
     <div>
-      <p class="fw-bolder">username</p>
+      <p class="fw-bolder">{{user['username']}}</p>
     </div>
     <div class="ms-auto">
-      <button class="second-button">Go to Profile</button>
+      <a href="/profile?user_id={{user['user_id']}}" class="second-button"
+        >Go to Profile</a
+      >
     </div>
   </div>
 
-  <div class="d-flex gap-2 align-items-center search-user">
-    <img
-      src="https://pbs.twimg.com/profile_images/1662313375127441410/Vtybr05X_400x400.jpg"
-      alt="profile picture"
-      width="60px"
-      height="60px"
-      class="rounded-circle"
-    />
-    <div>
-      <p class="fw-bolder">username</p>
-    </div>
-    <div class="ms-auto">
-      <button class="second-button">Go to Profile</button>
-    </div>
-  </div>
-
-  <div class="d-flex gap-2 align-items-center search-user">
-    <img
-      src="https://pbs.twimg.com/profile_images/1662313375127441410/Vtybr05X_400x400.jpg"
-      alt="profile picture"
-      width="60px"
-      height="60px"
-      class="rounded-circle"
-    />
-    <div>
-      <p class="fw-bolder">username</p>
-    </div>
-    <div class="ms-auto">
-      <button class="second-button">Go to Profile</button>
-    </div>
-  </div>
-
+  {% endfor %}
 </div>

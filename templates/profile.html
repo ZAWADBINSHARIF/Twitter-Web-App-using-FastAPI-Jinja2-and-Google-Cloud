@@ -2,41 +2,80 @@
 {% include 'partials/header.html' %}
 
 <!-- side menu include  -->
-{% include 'partials/side_menu.html' %}
+{% include 'partials/side_menu.html' %} {% if user_data %}
 
-<div class="feed pt-3">
+<div class="profile-section pt-3">
   <div>
     <div class="d-flex flex-column px-4">
-      <h4 class="m-0">username</h4>
-      <p class="text-secondary">71 posts</p>
+      <h4 class="m-0">{{user_data["username"]}}</h4>
+      <p class="text-secondary">{{user_data["tweets"] | length}} posts</p>
     </div>
     <div>
       <div>
+        {% if user_data["cover_img_url"] %}
         <img
           class="img-fluid"
-          src="https://pbs.twimg.com/profile_banners/1676934877160308736/1714728973/1500x500"
+          src="{{user_data['cover_img_url']}}"
           alt="cover"
           width="1500"
           height="500"
         />
+        {% else %}
+        <img
+          class="img-fluid"
+          src="/static//icons/cover-pic.jpeg"
+          alt="cover"
+          width="1500"
+          height="500"
+        />
+        {% endif %}
       </div>
       <div class="profile-picture d-flex justify-content-between px-3">
+        {% if user_data["profile_img_url"] %} <img class="img-fluid
+        rounded-circle" src="{{user_data["profile_img_url"]}}" alt="profile
+        picture" width="150" height="200"/> {% else %}
+
         <img
           class="img-fluid rounded-circle"
-          src="{{user["profile_img_url"]}}"
+          src="/static/icons/avatar2.png"
           alt="profile picture"
           width="150px"
         />
+
+        {% endif %} {% if user_id != user_data["user_id"] %}
+
         <div class="mt-2">
-          <button class="second-button">Follow</button>
+          {% if user_data['is_following'] %}
+
+          <button
+            class="second-button"
+            onclick="unfollow(`{{user_data['user_id']}}`)"
+          >
+            Following
+          </button>
+
+          {% else %}
+
+          <button
+            class="second-button"
+            onclick="on_follow(`{{user_data['user_id']}}`)"
+          >
+            Follow
+          </button>
+
+          {% endif %}
         </div>
+
+        {% endif %}
       </div>
 
       <div class="d-flex flex-column px-4">
-        <h4>username</h4>
+        <h4>{{user_data["username"]}}</h4>
         <div class="d-flex gap-3">
-          <p class="text-secondary">76 Following</p>
-          <p class="text-secondary">9 Followers</p>
+          <p class="text-secondary">
+            {{user_data["following"] | length}} Following
+          </p>
+          <p class="text-secondary">{{user_data["followers"]}} Followers</p>
         </div>
       </div>
     </div>
@@ -44,6 +83,48 @@
 
   {% include "partials/feed-post.html" %}
 </div>
+
+{% endif %}
+
+<script>
+  async function unfollow(following_user_id) {
+    console.log(following_user_id);
+
+    try {
+      const response = await fetch(
+        `/tw/unfollow?following_user_id=${following_user_id}`,
+        {
+          method: 'GET',
+        }
+      );
+
+      if (response.status === 200) window.location.reload();
+
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async function on_follow(following_user_id) {
+    console.log(following_user_id);
+
+    try {
+      const response = await fetch(
+        `/tw/follow?following_user_id=${following_user_id}`,
+        {
+          method: 'GET',
+        }
+      );
+
+      if (response.status === 200) window.location.reload();
+
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+</script>
 
 <!-- footer include  -->
 {% include 'partials/footer.html' %}

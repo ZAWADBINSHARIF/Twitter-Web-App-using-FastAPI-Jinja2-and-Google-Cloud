@@ -52,20 +52,19 @@
     const imgFile = document.querySelector('#profile-picture-uploader')
       .files[0];
 
-      const formData = new FormData()
-      formData.append("file", imgFile)
+    const formData = new FormData();
+    formData.append('file', imgFile);
 
     try {
-      const response = await fetch("/tw/set_profile_picture", {
-        method:'POST',
-        body: formData
-      })
+      const response = await fetch('/tw/set_profile_picture', {
+        method: 'POST',
+        body: formData,
+      });
 
-      if (response.status == 200){
-
+      if (response.status == 200) {
+        window.location = '/profile?user_id={{user_id}}';
       }
       console.log(response);
-
     } catch (error) {
       console.log(error);
     }
@@ -73,9 +72,27 @@
     console.log('profile');
   }
 
-  function uploadCover() {
+  async function uploadCover() {
     const imgFile = document.querySelector('#cover-picture-uploader').files[0];
-    console.log('cover');
+
+    const formData = new FormData();
+    formData.append('file', imgFile);
+
+    try {
+      const response = await fetch('/tw/set_cover_picture', {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (response.status == 200) {
+        window.location = '/profile?user_id={{user_id}}';
+      }
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+
+    console.log('profile');
   }
 </script>
 
