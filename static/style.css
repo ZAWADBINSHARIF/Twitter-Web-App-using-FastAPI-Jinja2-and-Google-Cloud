@@ -45,6 +45,16 @@ button {
   font-weight: bolder;
 }
 
+.danger-button {
+  background-color: #e40f0f;
+  color: #ffffff;
+  border: none;
+  outline: none;
+  padding: 7px 18px;
+  border-radius: 80px;
+  font-weight: bolder;
+}
+
 .hide {
   display: none;
 }

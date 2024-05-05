@@ -400,8 +400,32 @@ async def edit_tweet(
             tweet_ref.update({"tweet": tweet, "type": tweet_type, "img_url": img_url})
 
             return JSONResponse(
-                content={"msg": "The tweet has been update"}, status_code=200
+                content={"msg": "The tweet has been updated"}, status_code=200
             )
+
+    except Exception as e:
+        print(e)
+        return JSONResponse(status_code=500, content={"error": "someting went wrong"})
+
+
+@TW.delete("/tweet")
+async def delete_tweet(req: Request, tweet_id: str):
+
+    try:
+        user_info = req.state.user_info
+
+        if len(user_info) == 0:
+            return RedirectResponse("/login")
+
+        tweet_ref = tweets_ref.document(tweet_id)
+        user_ref = tweet_ref.get().to_dict().get("user")
+
+        user_ref.update({"tweets": firestore.ArrayRemove([tweet_ref])})
+        tweet_ref.delete()
+
+        return JSONResponse(
+            content={"msg": "The tweet has been deleted"}, status_code=200
+        )
 
     except Exception as e:
         print(e)

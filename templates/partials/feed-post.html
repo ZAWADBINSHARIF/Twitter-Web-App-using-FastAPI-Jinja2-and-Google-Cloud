@@ -14,7 +14,10 @@
         <div class="d-flex flex-row align-items-center">
           <div class="fs-6 fw-bold">{{tweet['user']['username']}}</div>
           {% if tweet['user']['user_id'] == user_id %}
-            <div class="ms-auto"><a href="/edit_tweet?tweet_id={{tweet['id']}}" class="second-button">Edit</a></div>
+          <div class="ms-auto d-flex align-items-center gap-2">
+            <div><a href="/edit_tweet?tweet_id={{tweet['id']}}" class="second-button">Edit</a></div>
+            <div><button onclick="deleteTweet(`{{tweet['id']}}`)" class="danger-button">Delete</button></div>
+          </div>
           {% endif %}
         </div>
         <div class="text-secondary">{{tweet['date_and_time']}}</div>
@@ -34,6 +37,28 @@
     {% endif %}
 
     
+    <script>
+
+      async function deleteTweet(tweet_id){
+
+        try {
+          const res = await fetch(`/tw/tweet?tweet_id=${tweet_id}`, {
+            method: 'DELETE'
+          })
+
+          if(res.status ===200){
+            window.location.reload()
+          }
+
+        } catch (error) {
+          console.log(error);
+        }
+
+      }
+
+    </script>
+
+
     </div>
   </div>
 </div>
