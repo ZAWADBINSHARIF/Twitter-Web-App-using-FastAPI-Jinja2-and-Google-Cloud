@@ -6,7 +6,7 @@ from fastapi.templating import Jinja2Templates
 
 
 # internal import
-from routers.twitterRoutes import get_user_info, search_tweet, search_users
+from routers.twitterRoutes import get_single_tweet, get_user_info, search_tweet, search_users
 
 templateRoutes = APIRouter()
 templates = Jinja2Templates(directory="templates")
@@ -26,19 +26,23 @@ async def home_page(req: Request):
 
     data = await get_user_info(user_info["user_id"])
 
-    if data['user_dict']:
+    if data["user_dict"]:
 
         return templates.TemplateResponse(
             request=req,
             name="home.html",
-            context={"user_id": user_info["user_id"], "user_data": data["user_dict"], "tweet_posts": data["latest_tweets"]},
+            context={
+                "user_id": user_info["user_id"],
+                "user_data": data["user_dict"],
+                "tweet_posts": data["latest_tweets"],
+            },
         )
     else:
         return RedirectResponse("/get_username")
 
 
 @templateRoutes.get("/profile")
-async def home_page(req: Request, user_id: str):
+async def profile_page(req: Request, user_id: str):
 
     try:
         user_info = req.state.user_info
@@ -63,7 +67,7 @@ async def home_page(req: Request, user_id: str):
 
 
 @templateRoutes.get("/search")
-async def home_page(
+async def search_page(
     req: Request,
     user_search_value: str | None = None,
     tweet_search_value: str | None = None,
@@ -100,7 +104,7 @@ async def home_page(
 
 
 @templateRoutes.get("/setting")
-async def home_page(req: Request):
+async def setting_page(req: Request):
 
     try:
         user_info = req.state.user_info
@@ -118,8 +122,34 @@ async def home_page(req: Request):
     )
 
 
+@templateRoutes.get("/edit_tweet")
+async def setting_page(req: Request, tweet_id: str):
+
+    try:
+        user_info = req.state.user_info
+
+        if len(user_info) == 0:
+            return RedirectResponse("/login")
+
+        data = await get_user_info(user_info["user_id"])
+        tweet = await get_single_tweet(tweet_id)
+
+    except:
+        return RedirectResponse("/login")
+
+    return templates.TemplateResponse(
+        request=req,
+        name="edit_tweet.html",
+        context={
+            "user_id": user_info["user_id"],
+            "user_data": data["user_dict"],
+            "tweet": tweet
+        },
+    )
+
+
 @templateRoutes.get("/get_username")
-async def home_page(req: Request):
+async def get_username_page(req: Request):
 
     try:
         user_info = req.state.user_info

@@ -1,0 +1,101 @@
+<!-- header include  -->
+{% include 'partials/header.html' %}
+
+<!-- side menu include  -->
+{% include 'partials/side_menu.html' %} {% if tweet and user_data %}
+
+<div class="edit-tweet-section p-4 d-flex gap-4 flex-column">
+  <div class="post-input-area">
+    <div class="d-flex ps-4 pe-4">
+      <a href="/profile?user_id={{user_id}}">
+        <img
+          src="{{user_data['profile_img_url']}}"
+          alt="avatar"
+          width="45px"
+          height="45px"
+          class="rounded-circle"
+        />
+      </a>
+      <input
+        type="text"
+        name="post"
+        id="post-input"
+        placeholder="Write your tweet here..."
+        maxlength="140"
+        value="{{tweet['tweet']}}"
+      />
+    </div>
+    <div
+      class="d-flex flex-row justify-content-end gap-2 align-items-center pe-4 ps-4 border-bottom-1 py-1"
+    >
+      <label for="img-uploader">
+        <img
+          src="/static/icons/upload.png"
+          alt="upload"
+          width="24px"
+          height="24px"
+          id="upload-img"
+        />
+      </label>
+      <input
+        class="hide"
+        type="file"
+        id="img-uploader"
+        accept="image/jpeg, image/png"
+      />
+
+      <input
+        type="text"
+        name="post"
+        id="post-type-input"
+        placeholder="Post type"
+        value="{{tweet['type']}}"
+      />
+      <button onclick="updatePost(`{{tweet['id']}}`)">Post</button>
+    </div>
+
+    <div class="text-danger hide msg text-center">
+      At least fill up the Tweet and Type input
+    </div>
+  </div>
+
+  {% endif %}
+</div>
+
+<script>
+  async function updatePost(tweet_id) {
+    const tweet = document.querySelector('#post-input').value;
+    const tweet_type = document.querySelector('#post-type-input').value;
+    const file = document.querySelector('#img-uploader').files[0];
+
+    if (!tweet && !tweet_type) {
+      const msg = document.querySelector('.msg');
+      msg.classList.remove('hide');
+
+      return;
+    }
+
+    const formData = new FormData();
+
+    formData.append('tweet', tweet);
+    formData.append('tweet_type', tweet_type);
+    if (file) formData.append('file', file);
+    console.log(tweet_id);
+    try {
+      const response = await fetch(`/tw/edit_tweet?tweet_id=${tweet_id}`, {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (response.status === 200) {
+        location.reload();
+      }
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+</script>
+
+<!-- footer include  -->
+{% include 'partials/footer.html' %}

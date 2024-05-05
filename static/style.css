@@ -152,8 +152,8 @@ button {
   background-color: black;
 }
 
-
-.setting-section{
+.setting-section,
+.edit-tweet-section {
   width: 45%;
   border: 1px solid gray;
   border-radius: 12px;

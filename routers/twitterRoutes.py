@@ -124,7 +124,9 @@ async def get_user_info(id: str, logged_in_user_id: str | None = None):
                 for tweet_ref in tweets_ref_array:
                     tweet = tweet_ref.get().to_dict()
                     tweet_user_info = tweet["user"].get().to_dict()
+                    tweet_user_info["user_id"] = tweet["user"].id
 
+                    tweet["id"] = tweet_ref.id
                     tweet["user"] = tweet_user_info
 
                     tweets_array.append(tweet)
@@ -148,6 +150,27 @@ async def get_user_info(id: str, logged_in_user_id: str | None = None):
     except Exception as e:
         print(e)
         return None
+
+
+async def get_single_tweet(id: str):
+
+    tweet_dict = {}
+
+    try:
+        tweet_ref = tweets_ref.document(id)
+        tweet = tweet_ref.get().to_dict()
+        tweet_user_info = tweet["user"].get().to_dict()
+        tweet_user_info["user_id"] = tweet["user"].id
+
+        tweet["id"] = tweet_ref.id
+        tweet["user"] = tweet_user_info
+
+        tweet_dict = tweet
+
+    except Exception as e:
+        print(e)
+
+    return tweet_dict
 
 
 @TW.post("/set_profile_picture")
@@ -338,6 +361,47 @@ async def unfollow(req: Request, following_user_id: str):
         own_user_ref.update({"following": firestore.ArrayRemove([following_user_ref])})
 
         return JSONResponse(status_code=200, content={"msg": "Following on"})
+
+    except Exception as e:
+        print(e)
+        return JSONResponse(status_code=500, content={"error": "someting went wrong"})
+
+
+@TW.post("/edit_tweet")
+async def edit_tweet(
+    req: Request,
+    tweet_id: str,
+    tweet: Annotated[str, Form()],
+    tweet_type: Annotated[str, Form()],
+    file: Annotated[UploadFile | None, File()] = None,
+):
+    try:
+        user_info = req.state.user_info
+
+        if len(user_info) == 0:
+            return RedirectResponse("/login")
+
+        tweet_ref = tweets_ref.document(tweet_id)
+
+        if file == None:
+            tweet_ref.update({"tweet": tweet, "type": tweet_type})
+
+        if file:
+
+            blob = storage.Blob(name=file.filename, bucket=bucket)
+            blob.upload_from_file(file.file)
+            img_url = (
+                "https://storage.cloud.google.com/"
+                + PROJECT_STORAGE_BUCKET
+                + "/"
+                + file.filename
+            )
+
+            tweet_ref.update({"tweet": tweet, "type": tweet_type, "img_url": img_url})
+
+            return JSONResponse(
+                content={"msg": "The tweet has been update"}, status_code=200
+            )
 
     except Exception as e:
         print(e)
