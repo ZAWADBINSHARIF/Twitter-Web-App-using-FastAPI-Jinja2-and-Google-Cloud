@@ -26,7 +26,9 @@ async def home_page(req: Request):
 
     data = await get_user_info(user_info["user_id"])
 
-    if data["user_dict"]:
+    print(data)
+
+    if data != None:
 
         return templates.TemplateResponse(
             request=req,

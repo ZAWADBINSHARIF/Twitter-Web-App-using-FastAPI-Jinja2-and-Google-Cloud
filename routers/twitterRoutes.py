@@ -107,8 +107,10 @@ async def get_user_info(id: str, logged_in_user_id: str | None = None):
 
     try:
         user = users_ref.document(id).get()
+        latest_tweets = []
 
         if user.exists:
+
             if logged_in_user_id == None:
                 logged_in_user_id = id
 
@@ -132,6 +134,9 @@ async def get_user_info(id: str, logged_in_user_id: str | None = None):
                     tweets_array.append(tweet)
 
                 user_dict["tweets"] = tweets_array
+                latest_tweets = user_dict["tweets"]
+            else:
+                user_dict['tweets'] = []
 
             if len(logged_in_user_dict.get("following")) > 0:
 

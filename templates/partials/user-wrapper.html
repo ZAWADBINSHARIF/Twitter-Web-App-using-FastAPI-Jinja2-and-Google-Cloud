@@ -2,6 +2,8 @@
   {% for user in user_data %}
 
   <div class="d-flex gap-2 align-items-center search-user">
+    {% if user['profile_img_url']%}
+
     <img
       src="{{user['profile_img_url']}}"
       alt="profile picture"
@@ -9,6 +11,18 @@
       height="60px"
       class="rounded-circle"
     />
+
+    {%else%}
+
+    <img
+      src="/static//icons/avatar2.png"
+      alt="profile picture"
+      width="60px"
+      height="60px"
+      class="rounded-circle"
+    />
+
+    {% endif%}
     <div>
       <p class="fw-bolder">{{user['username']}}</p>
     </div>

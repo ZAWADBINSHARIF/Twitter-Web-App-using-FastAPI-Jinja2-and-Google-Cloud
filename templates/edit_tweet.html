@@ -8,6 +8,8 @@
   <div class="post-input-area">
     <div class="d-flex ps-4 pe-4">
       <a href="/profile?user_id={{user_id}}">
+        {% if user_data["profile_img_url"] %}
+
         <img
           src="{{user_data['profile_img_url']}}"
           alt="avatar"
@@ -15,6 +17,18 @@
           height="45px"
           class="rounded-circle"
         />
+
+        {% else %}
+
+        <img
+          src="/static//icons/avatar2.png"
+          alt="avatar"
+          width="45px"
+          height="45px"
+          class="rounded-circle"
+        />
+
+        {% endif %}
       </a>
       <input
         type="text"
