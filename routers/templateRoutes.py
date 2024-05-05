@@ -24,14 +24,14 @@ async def home_page(req: Request):
     except:
         return RedirectResponse("/login")
 
-    user = await get_user_info(user_info["user_id"])
+    data = await get_user_info(user_info["user_id"])
 
-    if user:
+    if data['user_dict']:
 
         return templates.TemplateResponse(
             request=req,
             name="home.html",
-            context={"user_id": user_info["user_id"], "user_data": user},
+            context={"user_id": user_info["user_id"], "user_data": data["user_dict"], "tweet_posts": data["latest_tweets"]},
         )
     else:
         return RedirectResponse("/get_username")
@@ -46,7 +46,7 @@ async def home_page(req: Request, user_id: str):
         if len(user_info) == 0:
             return RedirectResponse("/login")
 
-        user = await get_user_info(user_id, user_info['user_id'])
+        data = await get_user_info(user_id, user_info["user_id"])
 
     except:
         return RedirectResponse("/login")
@@ -56,8 +56,8 @@ async def home_page(req: Request, user_id: str):
         name="profile.html",
         context={
             "user_id": user_info["user_id"],
-            "user_data": user,
-            "tweet_posts": user["tweets"][:-11:-1],
+            "user_data": data["user_dict"],
+            "tweet_posts": data["user_dict"]["tweets"][:-11:-1],
         },
     )
 

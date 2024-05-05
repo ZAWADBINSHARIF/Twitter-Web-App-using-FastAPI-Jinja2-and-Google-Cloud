@@ -70,44 +70,83 @@ async def search_users(user_name_value):
         print(e)
 
 
+async def get_last_limited_tweets(following_ref_array: list, own_user_id: str):
+
+    count = 0
+    latest_tweets = []
+
+    try:
+        query = tweets_ref.order_by(
+            "date_and_time", direction=firestore.Query.DESCENDING
+        )
+        tweets = query.get()
+
+        for tweet in tweets:
+            for following_ref in following_ref_array:
+                if (
+                    tweet.to_dict().get("user") == following_ref
+                    or tweet.to_dict().get("user") == users_ref.document(own_user_id)
+                ) and count <= 20:
+                    count = count + 1
+
+                    tweet_data = tweet.to_dict()
+                    tweet_data["user"] = tweet_data.get("user").get().to_dict()
+
+                    latest_tweets.append(tweet_data)
+
+                    if count == 20:
+                        break
+
+    except Exception as e:
+        print(e)
+
+    return latest_tweets
+
+
 async def get_user_info(id: str, logged_in_user_id: str | None = None):
 
-    user = users_ref.document(id).get()
+    try:
+        user = users_ref.document(id).get()
 
-    if user.exists:
+        if user.exists:
+            if logged_in_user_id == None:
+                logged_in_user_id = id
 
-        logged_in_user_dict = users_ref.document(logged_in_user_id).get().to_dict()
+            logged_in_user_dict = users_ref.document(logged_in_user_id).get().to_dict()
 
-        user_dict = user.to_dict()
-        user_dict["user_id"] = id
-        tweets_array = []
+            user_dict = user.to_dict()
+            user_dict["user_id"] = id
+            tweets_array = []
 
-        if user_dict.get("tweets"):
-            tweets_ref_array = user.get("tweets")
+            if user_dict.get("tweets"):
+                tweets_ref_array = user.get("tweets")
 
-            for tweet_ref in tweets_ref_array:
-                tweet = tweet_ref.get().to_dict()
-                tweet_user_info = tweet["user"].get().to_dict()
+                for tweet_ref in tweets_ref_array:
+                    tweet = tweet_ref.get().to_dict()
+                    tweet_user_info = tweet["user"].get().to_dict()
 
-                tweet["user"] = tweet_user_info
+                    tweet["user"] = tweet_user_info
 
-                tweets_array.append(tweet)
+                    tweets_array.append(tweet)
 
-            user_dict["tweets"] = tweets_array
-
-        if logged_in_user_id:
+                user_dict["tweets"] = tweets_array
 
             if len(logged_in_user_dict.get("following")) > 0:
 
                 following_ref_array = logged_in_user_dict.get("following")
 
+                latest_tweets = await get_last_limited_tweets(following_ref_array, id)
+
                 for following_ref in following_ref_array:
-                    if following_ref.id == id:
-
+                    if logged_in_user_id and following_ref.id == id:
                         user_dict["is_following"] = True
-        return user_dict
 
-    else:
+            return {"user_dict": user_dict, "latest_tweets": latest_tweets}
+
+        else:
+            return None
+    except Exception as e:
+        print(e)
         return None
 
 
